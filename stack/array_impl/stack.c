@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "stack.h"
+#include<math.h>
 void init(stack *s)
 {
 	s -> top = -1;
