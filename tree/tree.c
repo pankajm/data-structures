@@ -2,10 +2,35 @@
 #include<stdlib.h>
 #include "tree.h"
 #include "queue.h"
+int height = 0;
 tree *init(tree *t)
 {
 	t = NULL;
 	return t;
+}
+
+int countNodes(tree *t){
+
+	if(t == NULL)
+		return 0;
+	else 
+		return (1 + countNodes(t -> left) + countNodes(t -> right));
+
+}
+
+void calculateHeight(tree *t, int currentHeight){
+	if(t == NULL)
+		return;
+	if(currentHeight > height)
+		height = currentHeight;
+	calculateHeight(t -> left, currentHeight + 1);
+	calculateHeight(t -> right, currentHeight + 1);
+}
+
+int findHeight(tree *t){
+
+	calculateHeight(t, 0);
+	return height;
 }
 
 void insert(tree **t, int val)

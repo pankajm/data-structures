@@ -3,12 +3,12 @@
 #include "tree.h"
 int main()
 {
-	int choice, number, minimumNo;
+	int choice, number, minimumNo, count, treeHeight;
 	tree *t;
 	t = init(t);
 	while(1)
 	{
-		printf("Choose option\n1. Insert\n2. Inorder\n3. Breadthwise\n4. Exit\n");
+		printf("Choose option\n1. Insert\n2. Inorder\n3. Breadthwise\n4. Exit\n5. Count Nodes\n6. Height\n");
 		scanf("%d", &choice);
 		switch(choice)
 		{
@@ -27,6 +27,15 @@ int main()
 				break;
 			case 4:
 				exit(0);
+				break;
+			case 5:
+				count = countNodes(t);
+				printf("%d", count);
+				printf("\n");
+				break;
+			case 6:
+				treeHeight = findHeight(t);	
+				printf("Height is %d\n", treeHeight);
 	
 		}
 

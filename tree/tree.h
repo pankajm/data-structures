@@ -9,4 +9,7 @@ typedef struct tree
 tree *init(tree *);
 void insert(tree **, int);
 void delete_node(tree **, int);
+int countNodes(tree *);
+int findHeight(tree *);
+void calculateHeight(tree *, int);
 #endif
