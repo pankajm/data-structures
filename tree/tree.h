@@ -1,15 +1,13 @@
-#ifndef __TREE_H
-#define __TREE_H
-typedef struct tree
-{
+typedef struct tree{
+	
+	struct tree *left;
+	struct tree *right;
 	int data;
-	struct tree *left, *right;
 }tree;
 
 tree *init(tree *);
-void insert(tree **, int);
-void delete_node(tree **, int);
-int countNodes(tree *);
-int findHeight(tree *);
-void calculateHeight(tree *, int);
-#endif
+void insert(tree **, int val);
+tree *delete_node(tree *, int val);
+void inorder(tree *);
+void preorder(tree *);
+void postorder(tree *);

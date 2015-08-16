@@ -1,46 +1,20 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include "tree.h"
-#include "queue.h"
-int height = 0;
-tree *init(tree *t)
-{
+
+tree *init(tree *t){
 	t = NULL;
 	return t;
 }
 
-int countNodes(tree *t){
+void insert(tree **t, int val){
 
-	if(t == NULL)
-		return 0;
-	else 
-		return (1 + countNodes(t -> left) + countNodes(t -> right));
-
-}
-
-void calculateHeight(tree *t, int currentHeight){
-	if(t == NULL)
-		return;
-	if(currentHeight > height)
-		height = currentHeight;
-	calculateHeight(t -> left, currentHeight + 1);
-	calculateHeight(t -> right, currentHeight + 1);
-}
-
-int findHeight(tree *t){
-
-	calculateHeight(t, 0);
-	return height;
-}
-
-void insert(tree **t, int val)
-{
 	if(*t == NULL)
 	{
 		tree *temp = (tree *)malloc(sizeof(tree));
-		temp -> data = val;
 		temp -> left = NULL;
 		temp -> right = NULL;
+		temp -> data = val;
 		*t = temp;
 	}
 	else if(val < ((*t) -> data))
@@ -49,31 +23,68 @@ void insert(tree **t, int val)
 		insert(&(*t) -> right, val);
 }
 
-void inorder(tree *t)
-{
-	if(t != NULL)
+tree *findMinimum(tree *t){
+
+	while(t -> left != NULL)
+		t = t -> left;
+	return t;
+}
+
+tree *delete_node(tree *t, int val){
+
+	if(t == NULL)
+		return NULL;
+	if(val < t -> data)
+		t -> left = delete_node(t -> left, val);
+	else if(val > t -> data)
+		t -> right = delete_node(t -> right, val);
+	else
 	{
+		if(t -> left == NULL)
+		{
+			tree *temp = t -> right;
+			free(t);
+			return temp;
+		}
+		else if(t -> right == NULL)
+		{
+			tree *temp = t -> left;
+			free(t);
+			return temp;
+		}
+		else{
+			tree *temp = findMinimum(t -> right);
+			t -> data = temp -> data;
+			t -> right = delete_node(t -> right, temp -> data);
+		}
+	
+	}
+	return t;
+}
+
+void preorder(tree *t){
+
+	if(t != NULL){
+		printf("%d ", t -> data);
+		preorder(t -> left);
+		preorder(t -> right);
+	}
+}
+
+void inorder(tree *t){
+
+	if(t != NULL){
 		inorder(t -> left);
-		
 		printf("%d ", t -> data);
 		inorder(t -> right);
 	}
 }
 
-void breadthFirst(tree *t)
-{
-	queue q;
-	initQueue(&q);
-	tree *temp;
-	if(t != NULL)
-		enqueue(&q, t);
-	int i = 0;
-	while(!isEmpty(&q)){
-		temp = dequeue(&q);
-		printf("%d ", temp -> data);
-		if(temp -> left != NULL)
-			enqueue(&q, temp -> left);
-		if(temp -> right != NULL)
-			enqueue(&q, temp -> right);	
+void postorder(tree *t){
+
+	if(t != NULL){
+		postorder(t -> left);
+		postorder(t -> right);
+		printf("%d ", t -> data);
 	}
 }
